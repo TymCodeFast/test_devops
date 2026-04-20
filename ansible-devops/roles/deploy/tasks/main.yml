@@ -1,9 +1,22 @@
-- name: Copy project
-  copy:
-    src: ../
-    dest: /opt/devops/
+- name: Create deploy directory
+  file:
+    path: /opt/devops
+    state: directory
+    mode: '0755'
 
-- name: Start stack
-  command: docker compose up -d
-  args:
-    chdir: /opt/devops
+- name: Copy docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: /opt/devops/docker-compose.yml
+
+- name: Pull and start containers
+  community.docker.docker_compose_v2:
+    project_src: /opt/devops
+    pull: always
+    state: present
+  
+- name: Install Python Docker SDK
+  apt:
+    name:
+      - python3-docker
+    state: present

@@ -1,5 +1,5 @@
 - name: DevOps setup
-  hosts: localhost
+  hosts: staging
   become: yes
 
   roles:
