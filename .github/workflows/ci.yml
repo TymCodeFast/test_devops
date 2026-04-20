@@ -15,7 +15,7 @@ jobs:
 
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository}}
+      IMAGE_NAME: tymcodefast/test_devops
 
     steps:
       - name: Checkout code
