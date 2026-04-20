@@ -13,6 +13,10 @@ def get_conn():
 def read_root():
     return {"Hello": "World"}
 
+@app.get("/health")
+def health_status():
+    return {"status": "ok"}
+
 @app.get("/users")
 def get_users():
     conn = get_conn()
