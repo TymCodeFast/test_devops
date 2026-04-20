@@ -1,8 +1,12 @@
 import os
 import psycopg2
 import fastapi
+from prometheus_fastapi_instrumentator import Instrumentator
+
 
 app = fastapi.FastAPI()
+Instrumentator().instrument(app).expose(app)
+
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
