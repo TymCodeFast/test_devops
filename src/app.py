@@ -17,6 +17,11 @@ def read_root():
 def health_status():
     return {"status": "ok"}
 
+
+@app.get("/me")
+def health_status():
+    return {"user": "It's a me, Mario!"}
+
 @app.get("/users")
 def get_users():
     conn = get_conn()
