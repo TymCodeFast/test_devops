@@ -4,19 +4,18 @@ on:
   push: 
     branches: 
       - main
+      - develop
+  pull_request: 
+    branches: 
+      - main
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: tymcodefast/test_devops
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,6 +30,22 @@ jobs:
       
       - name: Run tests (Python)
         run: PYTHONPATH=. pytest tests
+
+
+  build-and-push:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    env:
+      REGISTRY: ghcr.io
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set lowercase image name
+        run: echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: docker build -t devops-app .
@@ -47,19 +62,19 @@ jobs:
       - name: Stop container
         run: docker stop app
 
-      - name: Log in GHCR
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Docker buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
-        with: 
+        with:
           context: .
           push: true
           tags: |

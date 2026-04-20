@@ -11,7 +11,7 @@ def get_conn():
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "Worldy"}
 
 @app.get("/health")
 def health_status():
