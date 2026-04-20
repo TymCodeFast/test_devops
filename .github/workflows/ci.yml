@@ -11,6 +11,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+        
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Run tests (Python)
+        run: PYTHONPATH=src pytest tests
 
       - name: Build Docker image
         run: docker build -t devops-app .
@@ -23,9 +34,6 @@ jobs:
 
       - name: Test Api
         run: curl --fail http://localhost:5000 || exit 1
-      
-      - name: Run Tests
-        run: PYTHONPATH=src pytest tests
       
       - name: Stop container
         run: docker stop app
