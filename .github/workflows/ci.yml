@@ -24,5 +24,8 @@ jobs:
       - name: Test Api
         run: curl --fail http://localhost:5000 || exit 1
       
+      - name: Run Tests
+        run: PYTHONPATH=src pytest tests
+      
       - name: Stop container
         run: docker stop app
