@@ -1,0 +1,9 @@
+- name: Copy project
+  copy:
+    src: ../
+    dest: /opt/devops/
+
+- name: Start stack
+  command: docker compose up -d
+  args:
+    chdir: /opt/devops

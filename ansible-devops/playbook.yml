@@ -1,0 +1,7 @@
+- name: DevOps setup
+  hosts: localhost
+  become: yes
+
+  roles:
+    - docker
+    - deploy
