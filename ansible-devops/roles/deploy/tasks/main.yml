@@ -9,6 +9,17 @@
     src: docker-compose.yml
     dest: /opt/devops/docker-compose.yml
 
+
+- name: Copy Prometheus config
+  copy:
+    src: prometheus.yml
+    dest: /opt/devops/prometheus.yml
+  
+- name: Copy Grafana datasource config
+  copy:
+    src: grafana-datasource.yml
+    dest: /opt/devops/grafana-datasource.yml
+
 - name: Pull and start containers
   community.docker.docker_compose_v2:
     project_src: /opt/devops
