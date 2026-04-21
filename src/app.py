@@ -22,6 +22,11 @@ def health_status():
     return {"status": "ok"}
 
 
+@app.get("/auto-deploy")
+def auto_deploy():
+    return {"status": "ok"}
+
+
 @app.get("/me")
 def health_status():
     return {"user": "It's a me, Mario!"}
